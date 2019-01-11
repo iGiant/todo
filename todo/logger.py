@@ -58,7 +58,7 @@ class Logger:
         """
         if not exists(self.file_name):
             return []
-        with open(self.file_name) as reading_file:
+        with open(self.file_name, encoding='utf8') as reading_file:
             lines:  List[str] = [line.strip() for line in reading_file]
         return self.parse_list(lines)
 
@@ -68,10 +68,10 @@ class Logger:
         :param lines: Список дел, которые необходимо сохранить
         :return: None
         """
-        with open(self.file_name, 'w') as write_file:
+        with open(self.file_name, 'w', encoding='utf8') as write_file:
             sort_lines = sorted(lines, key=date_sorted_key)
             for line in sort_lines:
-                write_data = (f'{line.date_begin} {line.time_begin} {TIMES_SEPARATOR}'
+                write_data = (f'{line.date_begin} {line.time_begin} {TIMES_SEPARATOR} '
                               f'{line.date_end} {line.time_end} {CASE_SEPARATOR} {line.case}'
                               if line.date_end else
                               f'{line.date_begin} {line.time_begin} {CASE_SEPARATOR} {line.case}')
