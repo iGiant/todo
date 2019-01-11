@@ -1,6 +1,6 @@
 from datetime import datetime
 from tkinter import Tk, Frame, Entry
-from tkinter.constants import RIDGE, TOP, X, LEFT
+from tkinter.constants import RIDGE, TOP, X, LEFT, BOTH
 from typing import List
 
 from .logger import Business, Logger
@@ -26,22 +26,34 @@ class GuiForm:
         self.root.resizable(width=False, height=False)
 
     def _create_widgets_entry(self):
-        self._top_frame = Frame(self.root, relief=RIDGE, borderwidth=1)
-        self._top_frame.pack(side=TOP, fill=X)
         now = datetime.now()
-        self._edit_date = Entry(self._top_frame, width=10, font=f"Arial 12", borderwidth=1)
+        self._edit_frame = Frame(self.root, relief=RIDGE, borderwidth=1)
+        self._edit_frame.pack(side=TOP, fill=X)
+        self._edit_date = Entry(self._edit_frame, width=10, font=f"Arial 12", borderwidth=1)
         self._edit_date.pack(side=LEFT)
         self._edit_date.insert(0, f'{now.strftime("%d.%m.%Y")}')
-        self._edit_time = Entry(self._top_frame, width=5, font=f"Arial 12", borderwidth=1)
+        self._edit_time = Entry(self._edit_frame, width=5, font=f"Arial 12", borderwidth=1)
         self._edit_time.insert(0, f'{now.strftime("%H:%M")}')
         self._edit_time.pack(side=LEFT)
-        self._edit_case = Entry(self._top_frame, width=40, font=f"Arial 12", borderwidth=1)
+        self._edit_case = Entry(self._edit_frame, width=40, font=f"Arial 12", borderwidth=1)
         self._edit_case.pack(side=LEFT)
         self._edit_case.bind('<KeyPress>', self._fedit_key_press)
         self._edit_case.focus_set()
 
     def _create_widgets_done(self):
-        pass
+        now = datetime.now()
+        self._done_frame = Frame(self.root, relief=RIDGE, borderwidth=1)
+        self._done_frame.pack(fill=BOTH)
+        self._controls_list = []
+        for line in self._unfinished_case_list:
+            self._edit_date = Entry(self._edit_frame, width=10, font=f"Arial 12", borderwidth=1)
+            self._edit_date.pack(side=LEFT)
+            self._edit_date.insert(0, f'{now.strftime("%d.%m.%Y")}')
+            self._edit_time = Entry(self._edit_frame, width=5, font=f"Arial 12", borderwidth=1)
+            self._edit_time.insert(0, f'{now.strftime("%H:%M")}')
+            self._edit_time.pack(side=LEFT)
+            self._edit_case = Entry(self._edit_frame, width=40, font=f"Arial 12", borderwidth=1)
+            self._edit_case.pack(side=LEFT)
 
     def show_form(self):
         """
