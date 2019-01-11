@@ -72,15 +72,10 @@ class GuiForm:
         Показ формы
         :return:
         """
-        # self.root.geometry(self.get_centr_screen())
+        self.root.wm_geometry("+750+450")
         self.root.update_idletasks()
         self.root.mainloop()
-
-    def get_centr_screen(self):
-        w = self.root.winfo_screenwidth()
-        h = self.root.winfo_screenheight()
-        size = tuple(x for x in self.root.geometry().split('+')[0].split('x'))
-        return f'{size[0]}x{size[1]}+{w // 2 - int(size[0]) // 2}+{h // 2 - int(size[1]) // 2}'
+        print(1)
 
     def _fedit_key_press(self, event):
         """
@@ -99,6 +94,7 @@ class GuiForm:
             exit(0)
         elif event.keycode == 27:
             exit(1)
+
 
     def _get_reversed_unfinished_case_list(self)-> List[Business]:
         """
