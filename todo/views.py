@@ -84,6 +84,7 @@ class GuiForm:
         :return:
         """
         if event.keycode == 13:
+            need = False
             if self._edit_case.get():
                 business = Business()
                 business.date_begin = self._edit_date.get()
@@ -91,10 +92,28 @@ class GuiForm:
                 business.case = self._edit_case.get()
                 self._case_list.append(business)
                 self.logger.write_to_file(self._case_list)
+                need = True
+            for index, control in enumerate(self._controls_list):
+                if control['var'].get():
+                    found_index = self._get_index_case(self._unfinished_case_list[index])
+                    if found_index != -1:
+                        case = self._case_list[found_index]
+                        case.date_end = control['end_date'].get()
+                        case.time_end = control['end_time'].get()
+                        need = True
+            if need:
+                self.logger.write_to_file(self._case_list)
             exit(0)
         elif event.keycode == 27:
             exit(1)
 
+    def _get_index_case(self, business: Business)-> int:
+        for index, case in enumerate(self._case_list):
+            if (business.date_begin == case.date_begin and
+                    business.time_begin == case.time_begin and
+                    business.case == case.case):
+                return index
+        return -1
 
     def _get_reversed_unfinished_case_list(self)-> List[Business]:
         """
