@@ -81,8 +81,8 @@ class GuiForm:
         Показ формы
         :return:
         """
-        self.root.lift()
         self.root.call('wm', 'attributes', '.', '-topmost', True)
+        self.root.after_idle(self.root.call, 'wm', 'attributes', '.', '-topmost', False)
         self.root.wm_geometry("+750+450")
         self.root.mainloop()
 
