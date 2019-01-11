@@ -8,10 +8,10 @@ CASE_SEPARATOR = '#'
 
 @attrs(slots=True)
 class Business:
-    date_begin: str = attrib(default='')
-    time_begin: str = attrib(default='')
-    date_end: str = attrib(default='')
-    time_end: str = attrib(default='')
+    date_begin: str = attrib(default='') # 'dd.mm.yyyy' -> '01.34.6789'
+    time_begin: str = attrib(default='') # 'hh:mm' -> '01:34'
+    date_end: str = attrib(default='') # 'dd.mm.yyyy'
+    time_end: str = attrib(default='') # 'hh:mm'
     case: str = attrib(default='')
 
 
@@ -32,7 +32,6 @@ class Logger:
             business = Business()
 
             times, case = line.split(CASE_SEPARATOR)
-
             business.case = case.strip()
 
             try:
@@ -43,7 +42,6 @@ class Logger:
                 date_end, time_end = times_end.split()
                 business.date_end = date_end.strip()
                 business.time_end = time_end.strip()
-
             except ValueError:
                 date_begin, time_begin = times.split()
                 business.date_begin = date_begin.strip()
@@ -53,9 +51,27 @@ class Logger:
         return result_list
 
     def load_from_files(self)-> List[Business]:
+        """
+        Чтение данных из текстового файла-лога и ...
+        :return: возврат списка спарсенных значений
+        """
         if not self.file_name:
             return []
         with open(self.file_name) as reading_file:
             lines:  List[str] = [line.strip() for line in reading_file]
         return self.parse_list(lines)
 
+    def write_to_file(self, lines: List[Business])-> None:
+        """
+        Запись дел в текстовый файл-лог
+        :param lines: Список дел, которые необходимо сохранить
+        :return: None
+        """
+        with open(self.file_name, 'w') as write_file:
+            sort_lines = sorted(lines, key=lambda x: f'{x.date_begin[6:]}{x.date_begin[3:5]}{x.date_begin[:2]}')
+            for line in sort_lines:
+                write_data = (f'{line.date_begin} {line.time_begin} {TIMES_SEPARATOR}'
+                              f'{line.date_end} {line.time_end} {CASE_SEPARATOR} {line.case}'
+                    if line.date_end else
+                              f'{line.date_begin} {line.time_begin} {CASE_SEPARATOR} {line.case}')
+                write_file.write(write_data + '\n')
