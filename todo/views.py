@@ -15,6 +15,7 @@ class GuiForm:
     def __init__(self, file_name: str):
         self.logger = Logger(file_name)
         self._case_list = self.logger.load_from_files()
+        self._controls_list = []
         self._unfinished_case_list = self._get_reversed_unfinished_case_list()
         self._create_window()
         self._create_widgets_entry()
@@ -33,10 +34,12 @@ class GuiForm:
         self._edit_frame.pack(side=TOP, fill=X)
         self._edit_date = Entry(self._edit_frame, width=10, font=f"Arial 12", borderwidth=1)
         self._edit_date.pack(side=LEFT)
+        self._edit_date.bind('<KeyPress>', self._fedit_key_press)
         self._edit_date.insert(0, f'{now.strftime("%d.%m.%Y")}')
         self._edit_time = Entry(self._edit_frame, width=5, font=f"Arial 12", borderwidth=1)
         self._edit_time.insert(0, f'{now.strftime("%H:%M")}')
         self._edit_time.pack(side=LEFT)
+        self._edit_time.bind('<KeyPress>', self._fedit_key_press)
         self._edit_case = Entry(self._edit_frame, width=40, font=f"Arial 12", borderwidth=1)
         self._edit_case.pack(side=LEFT)
         self._edit_case.bind('<KeyPress>', self._fedit_key_press)
@@ -44,8 +47,6 @@ class GuiForm:
 
     def _create_widgets_done(self):
         now = datetime.now()
-
-        self._controls_list = []
         for case in self._unfinished_case_list:
             controls = {}
             controls['frame'] = Frame(self.root, relief=RIDGE, borderwidth=1)
@@ -61,9 +62,11 @@ class GuiForm:
             controls['end_time'] = Entry(controls['frame'], width=5, font=f"Arial 12", borderwidth=1)
             controls['end_time'].insert(0, f'{now.strftime("%H:%M")}')
             controls['end_time'].pack(side=RIGHT)
+            controls['end_time'].bind('<KeyPress>', self._fedit_key_press)
             controls['end_date'] = Entry(controls['frame'], font=f"Arial 12", width=10, borderwidth=1)
             controls['end_date'].insert(0, f'{now.strftime("%d.%m.%Y")}')
             controls['end_date'].pack(side=RIGHT)
+            controls['end_date'].bind('<KeyPress>', self._fedit_key_press)
 
             self._controls_list.append(controls)
 
@@ -75,7 +78,6 @@ class GuiForm:
         self.root.wm_geometry("+750+450")
         self.root.update_idletasks()
         self.root.mainloop()
-        print(1)
 
     def _fedit_key_press(self, event):
         """
