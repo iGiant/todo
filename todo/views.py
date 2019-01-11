@@ -81,8 +81,9 @@ class GuiForm:
         Показ формы
         :return:
         """
+        self.root.lift()
+        self.root.call('wm', 'attributes', '.', '-topmost', True)
         self.root.wm_geometry("+750+450")
-        self.root.update_idletasks()
         self.root.mainloop()
 
     def _fedit_key_release(self, event):
