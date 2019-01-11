@@ -1,7 +1,9 @@
+from datetime import datetime
 from tkinter import Tk, Frame, Entry
 from tkinter.constants import RIDGE, TOP, X, LEFT
-from datetime import datetime
-from .logger import Business, Logger
+from typing import List
+
+from .logger import Business, Logger, date_sorted_key
 
 
 class GuiForm:
@@ -9,7 +11,9 @@ class GuiForm:
     Основное окно ввода информации
     """
     def __init__(self, file_name: str):
-        self.case_list = Logger(file_name)
+        self.logger = Logger(file_name)
+        self._case_list = sorted(self.logger.load_from_files(), reverse=True, key=date_sorted_key)
+        self._unfinished_case_list = self._get_unfinished_case_list()
         self._create_window()
         self._create_widgets_entry()
 
@@ -31,6 +35,7 @@ class GuiForm:
         self.edit_time.pack(side=LEFT)
         self.edit_case = Entry(self.top_frame, width=40, font=f"Arial 12", borderwidth=1)
         self.edit_case.pack(side=LEFT)
+        self.edit_case.bind('<KeyPress>', self._fedit_key_press)
         self.edit_case.focus_set()
 
     def show_form(self):
@@ -43,3 +48,9 @@ class GuiForm:
         h = self.root.winfo_screenheight()
         size = tuple(x for x in self.root.geometry().split('+')[0].split('x'))
         return f'{size[0]}x{size[1]}+{w // 2 - int(size[0]) // 2}+{h // 2 - int(size[1]) // 2}'
+
+    def _fedit_key_press(self, event):
+        pass
+
+    def _get_unfinished_case_list(self)->List[Business]:
+        return [case for case in self._case_list if not case.date_end]

@@ -69,10 +69,14 @@ class Logger:
         :return: None
         """
         with open(self.file_name, 'w') as write_file:
-            sort_lines = sorted(lines, key=lambda x: f'{x.date_begin[6:]}{x.date_begin[3:5]}{x.date_begin[:2]}')
+            sort_lines = sorted(lines, key=date_sorted_key)
             for line in sort_lines:
                 write_data = (f'{line.date_begin} {line.time_begin} {TIMES_SEPARATOR}'
                               f'{line.date_end} {line.time_end} {CASE_SEPARATOR} {line.case}'
                               if line.date_end else
                               f'{line.date_begin} {line.time_begin} {CASE_SEPARATOR} {line.case}')
                 write_file.write(write_data + '\n')
+
+
+def date_sorted_key(case: Business)-> str:
+    return f'{case.date_begin[6:]}{case.date_begin[3:5]}{case.date_begin[:2]}'
