@@ -13,7 +13,7 @@ class GuiForm:
     def __init__(self, file_name: str):
         self.logger = Logger(file_name)
         self._case_list = self.logger.load_from_files()
-        self._unfinished_case_list = self._get_unfinished_case_list().reverse()
+        self._unfinished_case_list = self._get_reversed_unfinished_case_list()
         self._create_window()
         self._create_widgets_entry()
         if self._unfinished_case_list:
@@ -75,9 +75,9 @@ class GuiForm:
             exit(0)
         elif event.keycode == 27:
             exit(1)
-    def _get_unfinished_case_list(self)-> List[Business]:
+    def _get_reversed_unfinished_case_list(self)-> List[Business]:
         """
         Возвращение списка незаконченных дел
         :return: список незаконченных дел
         """
-        return [case for case in self._case_list if not case.date_end]
+        return list(reversed([case for case in self._case_list if not case.date_end]))
