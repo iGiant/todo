@@ -1,9 +1,11 @@
 from datetime import datetime
-from tkinter import Tk, Frame, Entry
-from tkinter.constants import RIDGE, TOP, X, LEFT, BOTH
+from tkinter import Tk, Frame, Entry, Label, Checkbutton, IntVar
+from tkinter.constants import RIDGE, TOP, X, RIGHT, LEFT
 from typing import List
 
 from .logger import Business, Logger
+
+MONTHS = ('янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек')
 
 
 class GuiForm:
@@ -42,18 +44,28 @@ class GuiForm:
 
     def _create_widgets_done(self):
         now = datetime.now()
-        self._done_frame = Frame(self.root, relief=RIDGE, borderwidth=1)
-        self._done_frame.pack(fill=BOTH)
+
         self._controls_list = []
-        for line in self._unfinished_case_list:
-            self._edit_date = Entry(self._edit_frame, width=10, font=f"Arial 12", borderwidth=1)
-            self._edit_date.pack(side=LEFT)
-            self._edit_date.insert(0, f'{now.strftime("%d.%m.%Y")}')
-            self._edit_time = Entry(self._edit_frame, width=5, font=f"Arial 12", borderwidth=1)
-            self._edit_time.insert(0, f'{now.strftime("%H:%M")}')
-            self._edit_time.pack(side=LEFT)
-            self._edit_case = Entry(self._edit_frame, width=40, font=f"Arial 12", borderwidth=1)
-            self._edit_case.pack(side=LEFT)
+        for case in self._unfinished_case_list:
+            controls = {}
+            controls['frame'] = Frame(self.root, relief=RIDGE, borderwidth=1)
+            controls['frame'].pack(fill=X)
+
+            controls['date_case'] = Label(controls['frame'], font=f"Arial 12", justify=LEFT,
+                                          text=f'{case.time_begin} ({now.day:0>2}'
+                                          f' {MONTHS[now.month - 1]}): {case.case[:50]}')
+            controls['date_case'].pack(side=LEFT)
+            controls['var'] = IntVar()
+            controls['check'] = Checkbutton(controls['frame'], variable=controls['var'], relief=RIDGE, borderwidth=1)
+            controls['check'].pack(side=RIGHT)
+            controls['end_time'] = Entry(controls['frame'], width=5, font=f"Arial 12", borderwidth=1)
+            controls['end_time'].insert(0, f'{now.strftime("%H:%M")}')
+            controls['end_time'].pack(side=RIGHT)
+            controls['end_date'] = Entry(controls['frame'], font=f"Arial 12", width=10, borderwidth=1)
+            controls['end_date'].insert(0, f'{now.strftime("%d.%m.%Y")}')
+            controls['end_date'].pack(side=RIGHT)
+
+            self._controls_list.append(controls)
 
     def show_form(self):
         """
@@ -87,6 +99,7 @@ class GuiForm:
             exit(0)
         elif event.keycode == 27:
             exit(1)
+
     def _get_reversed_unfinished_case_list(self)-> List[Business]:
         """
         Возвращение списка незаконченных дел
