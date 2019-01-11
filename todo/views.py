@@ -16,6 +16,7 @@ class GuiForm:
         self.logger = Logger(file_name)
         self._case_list = self.logger.load_from_files()
         self._controls_list = []
+        self._ctrl_mode = False
         self._unfinished_case_list = self._get_reversed_unfinished_case_list()
         self._create_window()
         self._create_widgets_entry()
@@ -43,9 +44,14 @@ class GuiForm:
         self._edit_case = Entry(self._edit_frame, width=40, font=f"Arial 12", borderwidth=1)
         self._edit_case.pack(side=LEFT)
         self._edit_case.bind('<KeyPress>', self._fedit_key_press)
+        self._edit_case.bind('<KeyRelease>', self._fedit_key_release)
         self._edit_case.focus_set()
 
     def _create_widgets_done(self):
+        """
+        Помещение элементов незаконченных дел на форму для отметки
+        :return:
+        """
         now = datetime.now()
         for case in self._unfinished_case_list:
             controls = {}
@@ -54,7 +60,7 @@ class GuiForm:
 
             controls['date_case'] = Label(controls['frame'], font=f"Arial 12", justify=LEFT,
                                           text=f'{case.time_begin} ({now.day:0>2}'
-                                          f' {MONTHS[now.month - 1]}): {case.case[:50]}')
+                                          f' {MONTHS[now.month - 1]}): {case.case[:26]}')
             controls['date_case'].pack(side=LEFT)
             controls['var'] = IntVar()
             controls['check'] = Checkbutton(controls['frame'], variable=controls['var'], relief=RIDGE, borderwidth=1)
@@ -79,12 +85,22 @@ class GuiForm:
         self.root.update_idletasks()
         self.root.mainloop()
 
+    def _fedit_key_release(self, event):
+        if event.keycode == 17:
+            self._ctrl_mode = False
+
     def _fedit_key_press(self, event):
         """
         Обработка нажатия Enter и Esc
         :param event: параметры события
         :return:
         """
+        if event.keycode in range(49, 59) and self._ctrl_mode:
+            code = event.keycode - 49
+            if code < len(self._unfinished_case_list):
+                self._controls_list[code]['var'].set(0 if self._controls_list[code]['var'].get() else 1)
+        if event.keycode == 17 and not self._ctrl_mode:
+            self._ctrl_mode = True
         if event.keycode == 13:
             need = False
             if self._edit_case.get():
