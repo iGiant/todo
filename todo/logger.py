@@ -6,12 +6,13 @@ from os.path import exists
 TIMES_SEPARATOR = '-'
 CASE_SEPARATOR = '#'
 
+
 @attrs(slots=True)
 class Business:
-    date_begin: str = attrib(default='') # 'dd.mm.yyyy' -> '01.34.6789'
-    time_begin: str = attrib(default='') # 'hh:mm' -> '01:34'
-    date_end: str = attrib(default='') # 'dd.mm.yyyy'
-    time_end: str = attrib(default='') # 'hh:mm'
+    date_begin: str = attrib(default='')  # 'dd.mm.yyyy' -> '01.34.6789'
+    time_begin: str = attrib(default='')  # 'hh:mm' -> '01:34'
+    date_end: str = attrib(default='')  # 'dd.mm.yyyy'
+    time_end: str = attrib(default='')  # 'hh:mm'
     case: str = attrib(default='')
 
 
@@ -55,7 +56,7 @@ class Logger:
         Чтение данных из текстового файла-лога и ...
         :return: возврат списка спарсенных значений
         """
-        if not self.file_name:
+        if not exists(self.file_name):
             return []
         with open(self.file_name) as reading_file:
             lines:  List[str] = [line.strip() for line in reading_file]
@@ -72,6 +73,6 @@ class Logger:
             for line in sort_lines:
                 write_data = (f'{line.date_begin} {line.time_begin} {TIMES_SEPARATOR}'
                               f'{line.date_end} {line.time_end} {CASE_SEPARATOR} {line.case}'
-                    if line.date_end else
+                              if line.date_end else
                               f'{line.date_begin} {line.time_begin} {CASE_SEPARATOR} {line.case}')
                 write_file.write(write_data + '\n')
