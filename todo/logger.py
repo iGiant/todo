@@ -9,6 +9,7 @@ DAY = slice(None, 2)
 MONTH = slice(3, 5)
 YEAR = slice(6, None)
 
+
 @attrs(slots=True)
 class Business:
     date_begin: str = attrib(default='')  # 'dd.mm.yyyy' -> '01.34.6789'
@@ -72,7 +73,9 @@ class Logger:
         """
         with open(self.file_name, 'w', encoding='utf8') as write_file:
             sort_lines = sorted(lines,
-                                key=lambda case: f'{case.date_begin[YEAR]}{case.date_begin[MONTH]}{case.date_begin[DAY]}')
+                                key=lambda case: f'{case.date_begin[YEAR]}'
+                                f'{case.date_begin[MONTH]}'
+                                f'{case.date_begin[DAY]}')
             for line in sort_lines:
                 write_data = (f'{line.date_begin} {line.time_begin} {TIMES_SEPARATOR} '
                               f'{line.date_end} {line.time_end} {CASE_SEPARATOR} {line.case}'
