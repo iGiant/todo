@@ -4,7 +4,7 @@ from tkinter import Tk, Frame, Entry, Label, Checkbutton, IntVar
 from tkinter.constants import RIDGE, TOP, X, RIGHT, LEFT
 from typing import List, Optional
 
-from .logger import Business, Logger
+from .logger import Business, Logger, DAY, MONTH, YEAR
 
 
 MONTHS = ('янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек')
@@ -71,8 +71,8 @@ class GuiForm:
             controls.frame.pack(fill=X)
 
             controls.date_case = Label(controls.frame, font=f"Arial 12", justify=LEFT,
-                                          text=f'{case.time_begin} ({now.day:0>2}'
-                                          f' {MONTHS[now.month - 1]}): {case.case[:26]}')
+                                          text=f'{case.time_begin} ({case.date_begin[DAY]}'
+                                          f' {MONTHS[int(case.date_begin[MONTH]) - 1]}): {case.case[:26]}')
             controls.date_case.pack(side=LEFT)
             controls.var = IntVar()
             controls.check = Checkbutton(controls.frame, variable=controls.var, relief=RIDGE, borderwidth=1)

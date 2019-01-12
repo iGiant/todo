@@ -5,7 +5,9 @@ from os.path import exists
 
 TIMES_SEPARATOR = '-'
 CASE_SEPARATOR = '#'
-
+DAY = slice(None, 2)
+MONTH = slice(3, 5)
+YEAR = slice(6, None)
 
 @attrs(slots=True)
 class Business:
@@ -70,7 +72,7 @@ class Logger:
         """
         with open(self.file_name, 'w', encoding='utf8') as write_file:
             sort_lines = sorted(lines,
-                                key=lambda case: f'{case.date_begin[6:]}{case.date_begin[3:5]}{case.date_begin[:2]}')
+                                key=lambda case: f'{case.date_begin[YEAR]}{case.date_begin[MONTH]}{case.date_begin[DAY]}')
             for line in sort_lines:
                 write_data = (f'{line.date_begin} {line.time_begin} {TIMES_SEPARATOR} '
                               f'{line.date_end} {line.time_end} {CASE_SEPARATOR} {line.case}'
