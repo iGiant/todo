@@ -74,7 +74,8 @@ class Logger:
         :return: None
         """
         sort_lines = sorted(lines, key=lambda case: f'{case.date_begin[YEAR]}{case.date_begin[MONTH]}'
-        f'{case.date_begin[DAY]}{case.time_begin[HOUR]}{case.time_begin[MINUTE]}')
+                                                    f'{case.date_begin[DAY]}{case.time_begin[HOUR]}'
+                                                    f'{case.time_begin[MINUTE]}')
         with open(self.file_name, 'w', encoding='utf8') as write_file:
             for line in sort_lines:
                 write_data = (f'{line.date_begin} {line.time_begin} {TIMES_SEPARATOR} '
