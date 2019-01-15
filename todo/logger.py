@@ -8,6 +8,8 @@ CASE_SEPARATOR = '#'
 DAY = slice(None, 2)
 MONTH = slice(3, 5)
 YEAR = slice(6, None)
+HOUR = slice(None, 2)
+MINUTE = slice(3, None)
 
 
 @attrs(slots=True)
@@ -74,8 +76,8 @@ class Logger:
         with open(self.file_name, 'w', encoding='utf8') as write_file:
             sort_lines = sorted(lines,
                                 key=lambda case: f'{case.date_begin[YEAR]}'
-                                f'{case.date_begin[MONTH]}'
-                                f'{case.date_begin[DAY]}')
+                                f'{case.date_begin[MONTH]}{case.date_begin[DAY]}'
+                                f'{case.time_begin[HOUR]}{case.time_begin[MINUTE]}')
             for line in sort_lines:
                 write_data = (f'{line.date_begin} {line.time_begin} {TIMES_SEPARATOR} '
                               f'{line.date_end} {line.time_end} {CASE_SEPARATOR} {line.case}'
