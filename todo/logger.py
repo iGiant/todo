@@ -2,14 +2,9 @@ from typing import List
 from attr import attrs, attrib
 from os.path import exists
 
-
-TIMES_SEPARATOR = '-'
-CASE_SEPARATOR = '#'
-DAY = slice(None, 2)
-MONTH = slice(3, 5)
-YEAR = slice(6, None)
-HOUR = slice(None, 2)
-MINUTE = slice(3, None)
+from .settings import CASE_SEPARATOR, TIMES_SEPARATOR
+from .settings import DAY, MONTH, YEAR
+from .settings import HOUR,MINUTE
 
 
 @attrs(slots=True)
