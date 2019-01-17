@@ -2,8 +2,7 @@ from threading import Thread
 from time import sleep
 from tkinter import Label
 
-
-PAUSE = 0.15
+from .settings import FONT, PAUSE
 
 
 def _get_fixit_length_text(label_ : Label, text_: str, width: int)-> str:
@@ -21,7 +20,7 @@ def _scrool_label(label: Label, date: str, text: str, length: int)-> None:
         label['text'] = text_
         sleep(time)
 
-    temp_label = Label(None, font=f"Tahoma 12", justify='left')
+    temp_label = Label(None, font=FONT)
 
     if _get_fixit_length_text(temp_label, f'{date}: {text}', length) == f'{date}: {text}':
         label['text'] = f'{date}: {text}'

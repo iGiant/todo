@@ -1,0 +1,9 @@
+FONT = 'Tahoma 12'
+PAUSE = 0.15
+TIMES_SEPARATOR = '-'
+CASE_SEPARATOR = '#'
+DAY = slice(None, 2)
+MONTH = slice(3, 5)
+YEAR = slice(6, None)
+HOUR = slice(None, 2)
+MINUTE = slice(3, None)

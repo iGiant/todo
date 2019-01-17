@@ -6,6 +6,7 @@ from typing import List, Optional
 
 from .logger import Business, Logger, DAY, MONTH
 from .threads import start_scrool_label
+from .settings import FONT
 
 MONTHS = ('янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек')
 
@@ -45,15 +46,15 @@ class GuiForm:
         now = datetime.now()
         self._edit_frame = Frame(self.root, relief=RIDGE, borderwidth=1)
         self._edit_frame.pack(side=TOP, fill=X)
-        self._edit_date = Entry(self._edit_frame, width=10, font=f"Tahoma 12", borderwidth=1)
+        self._edit_date = Entry(self._edit_frame, width=10, font=FONT, borderwidth=1)
         self._edit_date.pack(side=LEFT)
         self._edit_date.bind('<KeyPress>', self._fedit_key_press)
         self._edit_date.insert(0, f'{now.strftime("%d.%m.%Y")}')
-        self._edit_time = Entry(self._edit_frame, width=5, font=f"Tahoma 12", borderwidth=1)
+        self._edit_time = Entry(self._edit_frame, width=5, font=FONT, borderwidth=1)
         self._edit_time.insert(0, f'{now.strftime("%H:%M")}')
         self._edit_time.pack(side=LEFT)
         self._edit_time.bind('<KeyPress>', self._fedit_key_press)
-        self._edit_case = Entry(self._edit_frame, width=40, font=f"Tahoma 12", borderwidth=1)
+        self._edit_case = Entry(self._edit_frame, width=40, font=FONT, borderwidth=1)
         self._edit_case.pack(side=LEFT)
         self._edit_case.bind('<KeyPress>', self._fedit_key_press)
         self._edit_case.bind('<KeyRelease>', self._fedit_key_release)
@@ -69,18 +70,18 @@ class GuiForm:
             controls = Controls()
             controls.frame = Frame(self.root, relief=RIDGE, borderwidth=1)
             controls.frame.pack(fill=X)
-            controls.date_case = Label(controls.frame, font=f"Tahoma 12", justify=LEFT)
+            controls.date_case = Label(controls.frame, font=FONT, justify=LEFT)
             controls.date_case.pack(side=LEFT)
             date = f'{case.time_begin} ({case.date_begin[DAY]} {MONTHS[int(case.date_begin[MONTH]) - 1]})'
             start_scrool_label(controls.date_case, date, case.case, 335)
             controls.var = IntVar()
             controls.check = Checkbutton(controls.frame, variable=controls.var, relief=RIDGE, borderwidth=1)
             controls.check.pack(side=RIGHT)
-            controls.end_time = Entry(controls.frame, width=5, font=f"Tahoma 12", borderwidth=1)
+            controls.end_time = Entry(controls.frame, width=5, font=FONT, borderwidth=1)
             controls.end_time.insert(0, f'{now.strftime("%H:%M")}')
             controls.end_time.pack(side=RIGHT)
             controls.end_time.bind('<KeyPress>', self._fedit_key_press)
-            controls.end_date = Entry(controls.frame, font=f"Tahoma 12", width=10, borderwidth=1)
+            controls.end_date = Entry(controls.frame, font=FONT, width=10, borderwidth=1)
             controls.end_date.insert(0, f'{now.strftime("%d.%m.%Y")}')
             controls.end_date.pack(side=RIGHT)
             controls.end_date.bind('<KeyPress>', self._fedit_key_press)
