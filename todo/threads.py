@@ -3,31 +3,41 @@ from time import sleep
 from tkinter import Label
 
 
-PAUSE = 0.2
+PAUSE = 0.15
+
+
+def _get_fixit_length_text(label_ : Label, text_: str, width: int)-> str:
+    label_['text'] = text_
+    end = len(text_)
+    while label_.winfo_reqwidth() > width:
+        end -= 1
+        label_['text'] = text_[:end]
+    return text_[:end]
 
 
 def _scrool_label(label: Label, date: str, text: str, length: int)-> None:
-    def _show_text(start_, end_, time):
-        scrool_text = text[start_:end_]
-        label['text'] = f'{date}: {scrool_text}'
+
+    def _show_text(text_, time):
+        label['text'] = text_
         sleep(time)
 
-    if length > len(text):
+    temp_label = Label(None, font=f"Tahoma 12", justify='left')
+
+    if _get_fixit_length_text(temp_label, f'{date}: {text}', length) == f'{date}: {text}':
         label['text'] = f'{date}: {text}'
         return None
+
     start = 0
-    end = start + length
-    _show_text(start, end, 5 * PAUSE)
+
+    _show_text(_get_fixit_length_text(temp_label, f'{date}: {text[start:]}', length), 5 * PAUSE)
     while True:
-        end += 1
-        if end > len(text):
+        if _get_fixit_length_text(temp_label, f'{date}: {text[start:]}', length) == f'{date}: {text[start:]}':
+            _show_text(f'{date}: {text[start:]}', 7 * PAUSE)
             start = 0
-            end = start + length
-            sleep(PAUSE * 5)
-            _show_text(start, end, 6 * PAUSE)
+            _show_text(_get_fixit_length_text(temp_label, f'{date}: {text[start:]}', length), 5 * PAUSE)
         else:
-            start += 1
-            _show_text(start, end, PAUSE)
+            _show_text(_get_fixit_length_text(temp_label, f'{date}: {text[start:]}', length), PAUSE)
+        start += 1
 
 
 def start_scrool_label(label: Label, date: str, text: str, length: int)-> None:
