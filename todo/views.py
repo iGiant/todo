@@ -28,7 +28,7 @@ class GuiForm:
     def __init__(self, file_name: str):
         self.logger = Logger(file_name)
         self._case_list = self.logger.load_from_files()
-        self._controls_list = []
+        self._controls_list: List[Controls] = []
         self._ctrl_mode = False
         self._unfinished_case_list = self._get_reversed_unfinished_case_list()
         self._create_window()
