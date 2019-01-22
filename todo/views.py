@@ -1,5 +1,6 @@
 from attr import attrs, attrib
 from datetime import datetime
+from os import startfile
 from tkinter import Tk, Frame, Entry, Label, Checkbutton, IntVar
 from tkinter.constants import RIDGE, TOP, X, RIGHT, LEFT
 from typing import List, Optional
@@ -58,6 +59,7 @@ class GuiForm:
         self._edit_case.pack(side=LEFT)
         self._edit_case.bind('<KeyPress>', self._fedit_key_press)
         self._edit_case.bind('<KeyRelease>', self._fedit_key_release)
+        self._edit_case.bind('<ButtonRelease-3>', self._fedit_button3_release)
         self._edit_case.focus_set()
 
     def _create_widgets_done(self):
@@ -101,6 +103,9 @@ class GuiForm:
     def _fedit_key_release(self, event):
         if event.keycode == 17:
             self._ctrl_mode = False
+
+    def _fedit_button3_release(self, event):
+        startfile(self.logger.file_name)
 
     def _fedit_key_press(self, event):
         """
