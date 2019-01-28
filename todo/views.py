@@ -1,6 +1,5 @@
 from attr import attrs, attrib
 from datetime import datetime
-from os import startfile
 from tkinter import Tk, Frame, Entry, Label, Checkbutton, IntVar
 from tkinter.constants import RIDGE, TOP, X, RIGHT, LEFT
 from typing import List, Optional
@@ -105,7 +104,7 @@ class GuiForm:
             self._ctrl_mode = False
 
     def _fedit_button3_release(self, event):
-        startfile(self.logger.file_name)
+        self.logger.show_log_file()
 
     def _fedit_key_press(self, event):
         """

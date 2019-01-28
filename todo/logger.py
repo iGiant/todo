@@ -1,5 +1,6 @@
 from typing import List
 from attr import attrs, attrib
+from os import startfile
 from os.path import exists
 
 from .settings import CASE_SEPARATOR, TIMES_SEPARATOR
@@ -78,3 +79,6 @@ class Logger:
                               if line.date_end else
                               f'{line.date_begin} {line.time_begin} {CASE_SEPARATOR} {line.case}')
                 write_file.write(write_data + '\n')
+
+    def show_log_file(self):
+        startfile(self.file_name)

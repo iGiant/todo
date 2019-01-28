@@ -1,7 +1,6 @@
 from threading import Thread
 from time import sleep
 from tkinter import Label
-
 from .settings import FONT, PAUSE
 
 
