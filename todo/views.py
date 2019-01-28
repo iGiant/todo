@@ -4,7 +4,7 @@ from tkinter import Tk, Frame, Entry, Label, Checkbutton, IntVar
 from tkinter.constants import RIDGE, TOP, X, RIGHT, LEFT
 from typing import List, Optional
 
-from .logger import Business, Logger, DAY, MONTH
+from .logworker import Business, Logger, DAY, MONTH
 from .threads import start_scrool_label
 from .settings import FONT
 
@@ -58,6 +58,7 @@ class GuiForm:
         self._edit_case.pack(side=LEFT)
         self._edit_case.bind('<KeyPress>', self._fedit_key_press)
         self._edit_case.bind('<KeyRelease>', self._fedit_key_release)
+        self._edit_case.bind('<ButtonRelease-3>', self._fedit_button3_release)
         self._edit_case.focus_set()
 
     def _create_widgets_done(self):
@@ -101,6 +102,9 @@ class GuiForm:
     def _fedit_key_release(self, event):
         if event.keycode == 17:
             self._ctrl_mode = False
+
+    def _fedit_button3_release(self, event):
+        self.logger.show_log_file()
 
     def _fedit_key_press(self, event):
         """

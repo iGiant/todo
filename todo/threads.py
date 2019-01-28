@@ -1,7 +1,6 @@
 from threading import Thread
 from time import sleep
 from tkinter import Label
-
 from .settings import FONT, PAUSE
 
 
@@ -14,7 +13,7 @@ def _scrool_label(label: Label, date: str, text: str, width_label: int)-> None:
     :param width_label: ширина виджета Label в пикселях
     :return:
     """
-    def _show_text(show_text, time):
+    def _show_text(show_text: str, time: float)-> None:
         """
         Помещает текст в виджет Label и делает паузу в time секунд
         :param show_text: Выводимы текст
@@ -61,11 +60,11 @@ def _scrool_label(label: Label, date: str, text: str, width_label: int)-> None:
 
 def start_scrool_label(label: Label, date: str, text: str, length: int)-> None:
     """
-
-    :param label:
-    :param date:
-    :param text:
-    :param length:
+    Запускает новый поток для прокрутки текста в виджете Label
+    :param label: виджет для вывода текста
+    :param date: часть строки для вывода
+    :param text: текст для вывода
+    :param length: ширина виджета Label в пикселях
     :return:
     """
     thread = Thread(target=_scrool_label, args=(label, date, text, length))
