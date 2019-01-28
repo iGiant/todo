@@ -4,7 +4,7 @@ from tkinter import Tk, Frame, Entry, Label, Checkbutton, IntVar
 from tkinter.constants import RIDGE, TOP, X, RIGHT, LEFT
 from typing import List, Optional
 
-from .logger import Business, Logger, DAY, MONTH
+from .logworker import Business, Logger, DAY, MONTH
 from .threads import start_scrool_label
 from .settings import FONT
 
