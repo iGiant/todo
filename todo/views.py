@@ -1,4 +1,4 @@
-from attr import attrs, attrib
+from attr import attrs
 from datetime import datetime
 from tkinter import Tk, Frame, Entry, Label, Checkbutton, IntVar
 from tkinter.constants import RIDGE, TOP, X, RIGHT, LEFT
