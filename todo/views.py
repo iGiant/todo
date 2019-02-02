@@ -11,14 +11,14 @@ from .settings import FONT
 MONTHS = ('янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек')
 
 
-@attrs(slots=True)
+@attrs(slots=True, auto_attribs=True)
 class Controls:
-    frame: Optional[Frame] = attrib(default=None)
-    date_case: Optional[Label] = attrib(default=None)
-    var: Optional[IntVar] = attrib(default=None)
-    check: Optional[Checkbutton] = attrib(default=None)
-    end_time: Optional[Entry] = attrib(default=None)
-    end_date: Optional[Entry] = attrib(default=None)
+    frame: Optional[Frame] = None
+    date_case: Optional[Label] = None
+    var: Optional[IntVar] = None
+    check: Optional[Checkbutton] = None
+    end_time: Optional[Entry] = None
+    end_date: Optional[Entry] = None
 
 
 class GuiForm:
