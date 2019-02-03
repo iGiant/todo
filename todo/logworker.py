@@ -1,20 +1,21 @@
-from typing import List
-from attr import attrs, attrib
 from os import startfile
 from os.path import exists
+from typing import List
+
+from attr import attrs
 
 from .settings import CASE_SEPARATOR, TIMES_SEPARATOR
 from .settings import DAY, MONTH, YEAR
 from .settings import HOUR,MINUTE
 
 
-@attrs(slots=True)
+@attrs(slots=True, auto_attribs=True)
 class Business:
-    date_begin: str = attrib(default='')  # 'dd.mm.yyyy' -> '01.34.6789'
-    time_begin: str = attrib(default='')  # 'hh:mm' -> '01:34'
-    date_end: str = attrib(default='')  # 'dd.mm.yyyy'
-    time_end: str = attrib(default='')  # 'hh:mm'
-    case: str = attrib(default='')
+    date_begin: str = ''  # 'dd.mm.yyyy' -> '01.34.6789'
+    time_begin: str = ''  # 'hh:mm' -> '01:34'
+    date_end: str = ''  # 'dd.mm.yyyy'
+    time_end: str = ''  # 'hh:mm'
+    case: str = ''
 
 
 class Logger:
