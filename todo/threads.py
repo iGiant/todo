@@ -1,10 +1,11 @@
 from threading import Thread
 from time import sleep
 from tkinter import Label
+
 from .settings import FONT, PAUSE
 
 
-def _scrool_label(label: Label, date: str, text: str, width_label: int)-> None:
+def _scrool_label(label: Label, date: str, text: str, width_label: int) -> None:
     """
     выполняемая в отдельном потоке функция про прокрутки текста
     :param label: виджет для вывода текста
@@ -13,7 +14,7 @@ def _scrool_label(label: Label, date: str, text: str, width_label: int)-> None:
     :param width_label: ширина виджета Label в пикселях
     :return:
     """
-    def _show_text(show_text: str, time: float)-> None:
+    def _show_text(show_text: str, time: float) -> None:
         """
         Помещает текст в виджет Label и делает паузу в time секунд
         :param show_text: Выводимы текст
@@ -23,7 +24,7 @@ def _scrool_label(label: Label, date: str, text: str, width_label: int)-> None:
         label['text'] = show_text
         sleep(time)
 
-    def _get_fixit_length_text(test_label: Label, full_text: str, width: int)-> str:
+    def _get_fixit_length_text(test_label: Label, full_text: str, width: int) -> str:
         """
         Возвращает текст для формирование Label нужной длины
         :param test_label: тестовый виджет Label для проверки
@@ -58,7 +59,7 @@ def _scrool_label(label: Label, date: str, text: str, width_label: int)-> None:
         start += 1
 
 
-def start_scrool_label(label: Label, date: str, text: str, length: int)-> None:
+def start_scrool_label(label: Label, date: str, text: str, length: int) -> None:
     """
     Запускает новый поток для прокрутки текста в виджете Label
     :param label: виджет для вывода текста

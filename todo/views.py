@@ -1,24 +1,26 @@
-from attr import attrs, attrib
 from datetime import datetime
 from tkinter import Tk, Frame, Entry, Label, Checkbutton, IntVar
 from tkinter.constants import RIDGE, TOP, X, RIGHT, LEFT
 from typing import List, Optional
 
+from attr import attrs
+
 from .logworker import Business, Logger, DAY, MONTH
 from .threads import start_scrool_label
 from .settings import FONT
 
+
 MONTHS = ('янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек')
 
 
-@attrs(slots=True)
+@attrs(slots=True, auto_attribs=True)
 class Controls:
-    frame: Optional[Frame] = attrib(default=None)
-    date_case: Optional[Label] = attrib(default=None)
-    var: Optional[IntVar] = attrib(default=None)
-    check: Optional[Checkbutton] = attrib(default=None)
-    end_time: Optional[Entry] = attrib(default=None)
-    end_date: Optional[Entry] = attrib(default=None)
+    frame: Optional[Frame] = None
+    date_case: Optional[Label] = None
+    var: Optional[IntVar] = None
+    check: Optional[Checkbutton] = None
+    end_time: Optional[Entry] = None
+    end_date: Optional[Entry] = None
 
 
 class GuiForm:
@@ -142,7 +144,7 @@ class GuiForm:
         elif event.keycode == 27:
             exit(1)
 
-    def _get_index_case(self, business: Business)-> int:
+    def _get_index_case(self, business: Business) -> int:
         for index, case in enumerate(self._case_list):
             if (business.date_begin == case.date_begin and
                     business.time_begin == case.time_begin and
@@ -150,7 +152,7 @@ class GuiForm:
                 return index
         return -1
 
-    def _get_reversed_unfinished_case_list(self)-> List[Business]:
+    def _get_reversed_unfinished_case_list(self) -> List[Business]:
         """
         Возвращение списка незаконченных дел
         :return: список незаконченных дел
